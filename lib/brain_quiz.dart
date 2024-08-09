@@ -2,6 +2,7 @@ import 'question.dart';
 
 class BrainQuiz {
   int questionNumber = 0;
+  int totalScore = 0;
   List<Question> _questionBank = [
        Question("Which is the largest organ in the human body?", ["Heart", "Skin", "Large Intestine"],"Skin"),
         Question( "Five dollars is worth how many nickels?", ["25", "50", "100"],"100"),
@@ -19,6 +20,7 @@ class BrainQuiz {
       questionNumber +=  1;
     }else{
       questionNumber = 0;
+      totalScore = 0;
     }
   }
   String getQuestion(){
@@ -29,6 +31,7 @@ class BrainQuiz {
   }
   bool checkAnswer(String useAnswer){
     if(useAnswer == _questionBank[questionNumber].correctAnswer){
+      totalScore += 1;
       return true;
     }else{
       return false;
