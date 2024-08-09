@@ -33,6 +33,7 @@ class QuizzPage extends StatefulWidget {
 
 class _QuizzPageState extends State<QuizzPage> {
   int selectedButtonColors = -1;
+  int x = 0;
   Color getButtonColor(int index) {
     if (selectedButtonColors == index) {
       return brain_quiz.checkAnswer(brain_quiz.getAnswert()[index])
@@ -51,6 +52,7 @@ class _QuizzPageState extends State<QuizzPage> {
     Timer(Duration(milliseconds: 200), () {
       setState(() {
         selectedButtonColors = -1;
+        x = brain_quiz.totalScore;
         brain_quiz.nextQuestion();
       });
     });
@@ -62,6 +64,18 @@ class _QuizzPageState extends State<QuizzPage> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        Expanded(
+          child: Padding(
+            padding: EdgeInsets.all(10.0),
+            child: Text(
+              'Score: $x',
+              style: TextStyle(
+                fontSize: 25.0,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
         Expanded(
           flex: 5,
           child: Padding(
