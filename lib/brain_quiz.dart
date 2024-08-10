@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+
 import 'question.dart';
 
 class BrainQuiz {
@@ -15,11 +18,12 @@ class BrainQuiz {
         Question( "What type of animal was Harambe?",["Panda", "Gorilla", "Crocodile"],  "Gorilla"),
         Question("Where is Tasmania located?",["Indonesia", "Australia", "Scotland"],  "Australia")
   ];
-  void nextQuestion(){
+  void nextQuestion(context){
     if(questionNumber + 1 < _questionBank.length){
       questionNumber +=  1;
     }else{
       questionNumber = 0;
+      Alert(context: context, title: "Finished!", desc: "TotalScore: $totalScore").show();
       totalScore = 0;
     }
   }
@@ -29,12 +33,12 @@ class BrainQuiz {
   List<String> getAnswert(){
     return _questionBank[questionNumber].questionAnswer;
   }
-  bool checkAnswer(String useAnswer){
+  Color checkAnswer(String useAnswer){
     if(useAnswer == _questionBank[questionNumber].correctAnswer){
       totalScore += 1;
-      return true;
+      return Colors.green;
     }else{
-      return false;
+      return Colors.red;
     }
   }
 }

@@ -33,12 +33,9 @@ class QuizzPage extends StatefulWidget {
 
 class _QuizzPageState extends State<QuizzPage> {
   int selectedButtonColors = -1;
-  int x = 0;
   Color getButtonColor(int index) {
     if (selectedButtonColors == index) {
-      return brain_quiz.checkAnswer(brain_quiz.getAnswert()[index])
-          ? Colors.green
-          : Colors.red;
+      return brain_quiz.checkAnswer(brain_quiz.getAnswert()[index]);
     }
     return Colors.blue;
   }
@@ -47,15 +44,33 @@ class _QuizzPageState extends State<QuizzPage> {
     setState(() {
       selectedButtonColors = number;
     });
-
     // Đợi 200ms sau đó reset màu nút và chuyển sang câu hỏi tiếp theo
     Timer(Duration(milliseconds: 200), () {
       setState(() {
         selectedButtonColors = -1;
-        x = brain_quiz.totalScore;
-        brain_quiz.nextQuestion();
+        brain_quiz.nextQuestion(context);
       });
     });
+  }
+
+  Expanded button(int index) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: TextButton(
+            onPressed: () {
+              updateUI(index);
+            },
+            style: TextButton.styleFrom(backgroundColor: getButtonColor(index)),
+            child: Text(
+              brain_quiz.getAnswert()[index],
+              style: TextStyle(
+                fontSize: 20.0,
+                color: Colors.white,
+              ),
+            )),
+      ),
+    );
   }
 
   @override
@@ -68,7 +83,7 @@ class _QuizzPageState extends State<QuizzPage> {
           child: Padding(
             padding: EdgeInsets.all(10.0),
             child: Text(
-              'Score: $x',
+              'Score: ${brain_quiz.totalScore}',
               style: TextStyle(
                 fontSize: 25.0,
                 color: Colors.white,
@@ -92,59 +107,9 @@ class _QuizzPageState extends State<QuizzPage> {
             ),
           ),
         ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: TextButton(
-                onPressed: () {
-                  updateUI(0);
-                },
-                style: TextButton.styleFrom(backgroundColor: getButtonColor(0)),
-                child: Text(
-                  brain_quiz.getAnswert()[0],
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.white,
-                  ),
-                )),
-          ),
-        ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: TextButton(
-              onPressed: () {
-                updateUI(1);
-              },
-              style: TextButton.styleFrom(backgroundColor: getButtonColor(1)),
-              child: Text(
-                brain_quiz.getAnswert()[1],
-                style: TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ),
-        ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: TextButton(
-              onPressed: () {
-                updateUI(2);
-              },
-              style: TextButton.styleFrom(backgroundColor: getButtonColor(2)),
-              child: Text(
-                brain_quiz.getAnswert()[2],
-                style: TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ),
-        )
+        button(0),
+        button(1),
+        button(2)
       ],
     );
   }
